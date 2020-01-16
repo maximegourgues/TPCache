@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class Cache {
 
     public final int TAILLE_BLOC = 32 ;
-    public static int N = 2;
+    public static int N = 4;
     public static int NB_LIGNE = (int) pow(2,N);
     public static int BITS_DEPLACEMENT = 5 ;
     
@@ -33,14 +33,15 @@ public class Cache {
         boolean Visite[] = new boolean[cache.length];
         int echecs = 0 ;
         int succes = 0;
-        try (FileReader fileReader = new FileReader("matrice10.txt");
+        int tmp_exe = 0;
+        try (FileReader fileReader = new FileReader("alea10.txt");
                 Scanner scanner =new Scanner(fileReader)){
             while (scanner.hasNext()) {
                 String s = scanner.nextLine();
                 String[] line = s.split(":"); 
                 int value = Integer.parseInt(line[0]);
                 
-                int deplacement = (int) (value % pow(2,BITS_DEPLACEMENT) );
+                //int deplacement = (int) (value % pow(2,BITS_DEPLACEMENT) );
                 int reste = (int) (value / pow(2,BITS_DEPLACEMENT));
                 int numLigne = (int) (reste % pow(2,N));
                 int etiquette = (int) (reste / pow(2,N));
@@ -49,15 +50,18 @@ public class Cache {
                 if (Visite[numLigne]==false || cache[numLigne]!=etiquette){
                     Visite[numLigne]=true;
                     echecs++;
+                    tmp_exe +=50;
                     cache[numLigne]=etiquette;
                 }
                 else{
                     succes++;  
+                    tmp_exe+=5;
                     }
                 }
             System.out.println("nb echecs = "+echecs);
             System.out.println("nb succes = "+succes);
- 
+            System.out.println("temps moyen d'execution (en ns) " + tmp_exe);
+                    
             }
         }
     }
